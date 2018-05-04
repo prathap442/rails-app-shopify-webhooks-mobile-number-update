@@ -1,11 +1,10 @@
 ShopifyApp.configure do |config|
   #config.root_url = '/nested'
   config.application_name = "My Shopify App"
-  config.api_key = "f02902dd4ed447a7c4cdb57598419c7b"
-  config.secret = "b598b8de868704a6cc4056bdd0d853a2"
+  config.api_key = "28916e520af2374732e5682d8d99d92c"
+  config.secret = "c90ea3c8bdbe61f8122ad717eee030c4"
   config.scope = "read_orders, read_products, read_customers, read_draft_orders"
-  config.embedded_app = false
+  config.embedded_app = true
   config.after_authenticate_job = false
-  config.session_repository = Shop
-  
+  config.session_repository = Shop  
 end

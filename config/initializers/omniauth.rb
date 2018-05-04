@@ -1,4 +1,7 @@
+OmniAuth.config.logger = Rails.logger
+
 Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :facebook, '580150129027741', '45dfa632efd83fce39f6ee73ba5a5f4a'
   provider :shopify,
            ShopifyApp.configuration.api_key,
            ShopifyApp.configuration.secret,
@@ -21,4 +24,5 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 
              strategy.options[:client_options][:site] = shop
            }
+
 end
