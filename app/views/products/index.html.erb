@@ -1,0 +1,11 @@
+<h2> Listing out all the products that are there in a particular store are as follows </h2>
+<%@products.each do |product|%>
+  <%=product.inspect%>
+<%end%>
+
+
+
+<div class = "container">
+  <h1>Listing of all the products whose inverntory is less than 5 </h1>
+  <%= link_to "Less stock in the inventory",products_less_stock_products_path%>
+</div>

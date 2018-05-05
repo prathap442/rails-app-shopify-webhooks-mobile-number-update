@@ -5,6 +5,5 @@ class HomeController < ShopifyApp::AuthenticatedController
     @cart = ShopifyAPI::Cart.find(:all, params: {limit: 10})
     @customers = ShopifyAPI::Customer.all
     @orders = ShopifyAPI::Order.all
-    binding.pry
   end
 end
