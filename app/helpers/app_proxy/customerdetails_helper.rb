@@ -1,0 +1,2 @@
+module AppProxy::CustomerdetailsHelper
+end

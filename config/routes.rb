@@ -1,8 +1,17 @@
 Rails.application.routes.draw do
+  
+  # post '/mobile_updates/update_the_customer_details',to: "mobile_updates#update_the_customer_details"
+  namespace :app_proxy do 
+    resources :mobile_number_storers
+  end  
+  get "/webhooktester/create_a_test_webhook",to: "webhooktester#create_a_test_webhook"
+  resources :webhooktester
+  # get '/webhooktester/create_a_test_webhook',to: "webhooktester#create_a_test_webhook"
+  resources :people
+  devise_for :users
+  get '/people/send_email_for_the_person'
   get '/products/less_stock_products', to: "products#less_stock_products"
   resources :products
-  root :to => 'home#index'
-  get "/",to: "home#index"
   mount ShopifyApp::Engine, at: '/'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

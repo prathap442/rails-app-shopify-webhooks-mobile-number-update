@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Mobile Number Storers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mobile number</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @mobile_number_storers.each do |mobile_number_storer| %>
+      <tr>
+        <td><%= mobile_number_storer.mobile_number %></td>
+        <td><%= link_to 'Show', mobile_number_storer %></td>
+        <td><%= link_to 'Edit', edit_mobile_number_storer_path(mobile_number_storer) %></td>
+        <td><%= link_to 'Destroy', mobile_number_storer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Mobile Number Storer', new_mobile_number_storer_path %>

@@ -1,0 +1,22 @@
+<%= form_with(model: mobile_number_storer, local: true) do |form| %>
+  <% if mobile_number_storer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(mobile_number_storer.errors.count, "error") %> prohibited this mobile_number_storer from being saved:</h2>
+
+      <ul>
+      <% mobile_number_storer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :mobile_number %>
+    <%= form.text_field :mobile_number, id: :mobile_number_storer_mobile_number %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

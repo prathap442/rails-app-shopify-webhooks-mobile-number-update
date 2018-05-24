@@ -16,8 +16,7 @@
 <hr>
 
 <h2>Webhooks</h2>
-
-
+  <%= link_to "create a test webhook",webhooktester_create_a_test_webhook_path%>
 <h3> hello world</h3>
 
 <% if @webhooks.present? %>
@@ -29,15 +28,17 @@
 <% else %>
   <p>This app has not created any webhooks for this Shop. Add webhooks to your ShopifyApp initializer if you need webhooks</p>
 <% end %>
+<%= @customers.count %>
 
-<% @customers.each do |customer|%>
-  <%= customer.email %>
-<% end %>
+<%= @customer.inspect %>
+<%= puts "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW" %>
+<%# @customers.each do |customer|%>
+  <%#= customer.email %>
+<%# end %>
 
-<% @orders.each do |order| %>
-  <%= order.id %>
-<% end %>
-<h2>Indrajit</h2>
+<%# @orders.each do |order| %>
+  <%#= order.inspect %>
+<%# end %>
 
 
 
