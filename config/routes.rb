@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  
-  # post '/mobile_updates/update_the_customer_details',to: "mobile_updates#update_the_customer_details"
+  root "home#index"
+  post '/mobile_updates/update_the_customer_details',to: "mobile_updates#update_the_customer_details"
+  post "apps/mobile_updates/update_the_customer_details",to: "app_proxy/mobile_number_storers#create"
   namespace :app_proxy do 
     resources :mobile_number_storers
   end  

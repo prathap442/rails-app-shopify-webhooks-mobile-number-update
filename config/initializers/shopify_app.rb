@@ -1,14 +1,15 @@
 ShopifyApp.configure do |config|
   #config.root_url = '/nested'
   config.application_name = "My Shopify App"
-  config.api_key = "28916e520af2374732e5682d8d99d92c"
-  config.secret = "7b4e548c0a293e14226b39dccc0f51c2"
+  config.api_key = "9b0b0fe7c3115f8d629edf91ba45cb04"
+  config.secret = "7b6212eef1dd85f579471a81402fdda4"
   config.scope = "read_orders, read_products, read_customers, read_draft_orders, write_customers"
   config.embedded_app = true
   config.after_authenticate_job = false
   #binding.pry
   config.session_repository = Shop  
+  binding.pry
   config.webhooks = [
-    {topic: 'products/create', address: 'https://vadlaputi-departmental-stores.myshopify.com/webhooks', format: 'json'},
+    {topic: 'customers/create', address: 'https://12fb9db4.ngrok.io/webhooks', format: 'json'},
   ]
 end

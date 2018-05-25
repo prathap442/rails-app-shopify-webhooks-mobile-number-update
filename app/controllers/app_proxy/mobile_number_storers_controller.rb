@@ -1,7 +1,7 @@
 module  AppProxy
 	class MobileNumberStorersController < ApplicationController
 	  include ShopifyApp::AppProxyVerification 
-	  before_action :set_mobile_number_storer, only: [:show, :edit, :update, :destroy, :update_mobile_number]
+	  #before_action :set_mobile_number_storer, only: [:show, :edit, :update, :destroy, :update_mobile_number]
 	  	
 	  # GET /mobile_number_storers
 	  # GET /mobile_number_storers.json
@@ -22,18 +22,23 @@ module  AppProxy
 	  # POST /mobile_number_storers
 	  # POST /mobile_number_storers.json
 	  def create
-	  	  shop_url  = "https://50a5d25b196006b2dcbd4843c8e65ead:be77b2ca48a03d3e23237e39a0a53947@vadlaputi-departmental-stores.myshopify.com/admin";
+	  	  binding.pry
+	  	  shop_url  = "https://9b0b0fe7c3115f8d629edf91ba45cb04:7b6212eef1dd85f579471a81402fdda4@#{params[:shop]}/admin";
 		  ShopifyAPI::Base.site = shop_url
-		  session = ShopifyAPI::Session.new(ShopifyAPI::Shop.current.name.split(" ").join("-").downcase+".myshopify.com")
-		  scope = ["write_customers, read_customers"]
-		  sleep(5)
+		  binding.pry
+		  session = ShopifyAPI::Session.new(params[:shop])
+		  binding.pry
+		  scope = ["write_customers,read_customers"]
+		  sleep(5);
 		  permission_url = session.create_permission_url(scope)
-		  ShopifyAPI::Base.activate_session(session)
+		  puts ShopifyAPI::Base.activate_session(session)
+		  binding.pry
 	      @mobile_number_storer = MobileNumberStorer.new(mobile_number_storer_params)
+	      binding.pry
 	      puts @mobile_number_storer.errors.full_messages
 	      p ShopifyAPI::Shop.current.name
 	      @customer = ShopifyAPI::Customer.search(query: "email:#{params[:email_id]}")
-
+          binding.pry
 	      if(@customer.first.present?)
 		      @customer.first.phone = params[:mobile_number]
 		      if @customer.first.save
@@ -81,6 +86,7 @@ module  AppProxy
 
 	    # Never trust parameters from the scary internet, only allow the white list through.
 	    def mobile_number_storer_params
+	    	binding.pry
 	      params.permit(:mobile_number,:email_id)
 	    end
 	end
