@@ -22,36 +22,35 @@ module  AppProxy
 	  # POST /mobile_number_storers
 	  # POST /mobile_number_storers.json
 	  def create
-	  	  binding.pry
 	  	  shop_url  = "https://9b0b0fe7c3115f8d629edf91ba45cb04:7b6212eef1dd85f579471a81402fdda4@#{params[:shop]}/admin";
 		  ShopifyAPI::Base.site = shop_url
-		  binding.pry
+		  token = Shop.where(shopify_domain: params[:shop])[0].shopify_token
 		  session = ShopifyAPI::Session.new(params[:shop])
-		  binding.pry
+		  session.token = token
 		  scope = ["write_customers,read_customers"]
-		  sleep(5);
 		  permission_url = session.create_permission_url(scope)
 		  puts ShopifyAPI::Base.activate_session(session)
-		  binding.pry
-	      @mobile_number_storer = MobileNumberStorer.new(mobile_number_storer_params)
-	      binding.pry
+		  @mobile_number_storer = MobileNumberStorer.new(mobile_number_storer_params)
 	      puts @mobile_number_storer.errors.full_messages
 	      p ShopifyAPI::Shop.current.name
-	      @customer = ShopifyAPI::Customer.search(query: "email:#{params[:email_id]}")
-          binding.pry
-	      if(@customer.first.present?)
-		      @customer.first.phone = params[:mobile_number]
-		      if @customer.first.save
-		        flash[:message] = "the product is created"
+	      10.times do
+               @customer = ShopifyAPI::Customer.search(query: "email:#{params[:email_id]}")
+	      end
+	      @customer = @customer.first
+	      if(@customer)
+		      @customer.phone = params[:mobile_number]
+		      if @customer.save
+		      	flash[:message] = "the product is created"
 		        render plain: "Mobile number has been saved."
-		        #p shop = ShopifyAPI::Shop.current
-		        #redirect_to mobile_number_storer_path(@mobile_number_storer.id)
+		        #redirect_to mobile_number_storer_path(@mobilenumber_storer.id)
 		      else
 		        render action: "new"
 		      end
 		  else
+            puts "the customer doesnot exist and the @customer variable shows"
+            puts @customer
 		  	render plain: "Mobile number has not been updated."
-		   end   
+		  end   
 	  end
 
 	  # PATCH/PUT /mobile_number_storers/1
@@ -86,8 +85,6 @@ module  AppProxy
 
 	    # Never trust parameters from the scary internet, only allow the white list through.
 	    def mobile_number_storer_params
-	    	binding.pry
-	      params.permit(:mobile_number,:email_id)
 	    end
 	end
 end
