@@ -5,7 +5,7 @@ class WebhooktesterController < ShopifyApp::AuthenticatedController
 	 topics.each do |topic|
 		 @new_webhook = ShopifyAPI::Webhook.new({
 		   topic: topic,
-		   address: "https://12fb9db4.ngrok.io/products", # substitute url with your endpoint
+		   address: "https://a92e9430.ngrok.io/products", # substitute url with your endpoint
 		   format: "json"
 		 })
 		 binding.pry

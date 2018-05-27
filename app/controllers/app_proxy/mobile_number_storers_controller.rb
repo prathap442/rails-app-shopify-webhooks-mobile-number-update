@@ -32,18 +32,22 @@ module  AppProxy
 		  puts ShopifyAPI::Base.activate_session(session)
 		  @mobile_number_storer = MobileNumberStorer.new(mobile_number_storer_params)
 	      puts @mobile_number_storer.errors.full_messages
-	      p ShopifyAPI::Shop.current.name
-	      10.times do
-               @customer = ShopifyAPI::Customer.search(query: "email:#{params[:email_id]}")
-	      end
+	      @mobile_number_storer.save
+	      puts ShopifyAPI::Shop.current
+	      arr1 = ShopifyAPI::Customer.where(email: "#{params[:email_id]}")
+	      puts arr1
+	      @customer = ShopifyAPI::Customer.search(query: "email:#{params[:email_id]}")
 	      @customer = @customer.first
+	      binding.pry
 	      if(@customer)
 		      @customer.phone = params[:mobile_number]
 		      if @customer.save
+		        binding.pry
 		      	flash[:message] = "the product is created"
 		        render plain: "Mobile number has been saved."
 		        #redirect_to mobile_number_storer_path(@mobilenumber_storer.id)
 		      else
+		        binding.pry
 		        render action: "new"
 		      end
 		  else
@@ -76,6 +80,9 @@ module  AppProxy
 	      format.json { head :no_content }
 	    end
 	  end
+
+	  def update_the_customer_info_after_2_minutes
+	  end	
 
 	  private
 	    # Use callbacks to share common setup or constraints between actions.
