@@ -10,6 +10,6 @@ ShopifyApp.configure do |config|
   config.session_repository = Shop  
   binding.pry
   config.webhooks = [
-    {topic: 'customers/create', address: 'https://a92e9430.ngrok.io/webhooks', format: 'json'},
+    {topic: 'customers/create', address: 'https://4fe5b515.ngrok.io/webhooks', format: 'json'},
   ]
 end
