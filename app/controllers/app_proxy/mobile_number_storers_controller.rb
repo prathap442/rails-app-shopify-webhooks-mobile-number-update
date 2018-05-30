@@ -1,9 +1,9 @@
 module  AppProxy
 	class MobileNumberStorersController < ApplicationController
 	  include ShopifyApp::AppProxyVerification 
+	  include HTTParty
 	  protect_from_forgery
 	  #before_action :set_mobile_number_storer, only: [:show, :edit, :update, :destroy, :update_mobile_number]
-	  	
 	  # GET /mobile_number_storers
 	  # GET /mobile_number_storers.json
 	  # GET /mobile_number_storers/1
@@ -24,7 +24,6 @@ module  AppProxy
 	  # POST /mobile_number_storers.json
 	  
 	  def create
-	  	  params.permit!
 	  	  shop_url  = "https://9b0b0fe7c3115f8d629edf91ba45cb04:7b6212eef1dd85f579471a81402fdda4@#{params[:shop]}/admin";
 		  ShopifyAPI::Base.site = shop_url
 		  token = Shop.where(shopify_domain: params[:shop]).first.shopify_token
@@ -65,7 +64,8 @@ module  AppProxy
               ShopifyAPI::Session.setup(api_key: '9b0b0fe7c3115f8d629edf91ba45cb04', secret: '7b6212eef1dd85f579471a81402fdda4')
               binding.pry
               customer = ShopifyAPI::Customer.search(query: "email:#{params[:email_id]}").first
-
+              binding.pry
+              @products = "https://"+params[:shop]+"/admin/products.json"
 	            if(customer.attributes["phone"] == nil && customer.attributes["note"] != nil && customer!=nil)	
 			           binding.pry
 			                    customer.attributes["phone"] = params[:mobile_number]
@@ -124,5 +124,8 @@ module  AppProxy
 	    # Never trust parameters from the scary internet, only allow the white list through.
 	    def mobile_number_storer_params
 	    end
+
+	    def permit_parameters
+  	    end 	
 	end
 end

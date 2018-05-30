@@ -9,22 +9,19 @@ class HomeController < ShopifyApp::AuthenticatedController
 	    token = Shop.where(shopify_domain: ShopifyAPI::Shop.current.attributes["myshopify_domain"])[0].shopify_token
 		session = ShopifyAPI::Session.new(ShopifyAPI::Shop.current.attributes["myshopify_domain"],token)
 		puts session.token
-		#permission_url = session.create_permission_url(scope, "https://#{params[:shop]}/auth/shopify/callback");	  
+		binding.pry
+		#permissiosn_url = session.create_permission_url(scope, "https://#{params[:shop]}/auth/shopify/callback");	  
 		puts ShopifyAPI::Base.activate_session(session)
-		  
-            @customers.each do |customer|
-	           if(customer.attributes["phone"] == nil && customer.attributes["note"] != nil)	
-		                    customer.attributes["note"].split("\n").each do |element|
-	                           if(element.include?("Mobile"))
-		                           arr1 = []
-		                           arr1 = element.split(":").second.split(" ").first
-		                           puts arr1.class
-		                           puts customer.update_attributes({"phone": "#{element.split(":").second.split(" ").first}"})
-	                           end
-	                        end    
-			   end
-	        end
-	    ShopifyAPI::Base.clear_session    
+		ShopifyAPI::Base.clear_session
+
+		respond_to do |format|
+		    format.html
+		    format.csv { send_data (@customers.to_csv) }
+		    # format.csv {
+		    #   filename = "Posts-#{Time.now.strftime("%Y%m%d%H%M%S")}.csv"
+		    #   send_data(@posts.to_csv, :type => "text/csv; charset=utf-8; header=present", :filename => filename)
+		    # }
+		end  
 	  end
 	  private
 	    #create customer
