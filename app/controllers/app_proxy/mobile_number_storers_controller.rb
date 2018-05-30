@@ -35,21 +35,26 @@ module  AppProxy
 		  @mobile_number_storer = MobileNumberStorer.new(mobile_number_storer_params)
 	      puts @mobile_number_storer.errors.full_messages
 	      # @mobile_number_storer.save
-	      p "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	      sleep(40);
 	      puts ShopifyAPI::Shop.current
 	      if(params[:email_id] != nil && params[:mobile_number] !=nil)
 		          #(ShopifyAPI::Customer.search(query: "email:#{params[:email_id]}").first.phone = params[:mobile_number]).save
 		          @customer = ShopifyAPI::Customer.search(query: "email:#{params[:email_id]}").first
 	          if(@customer)
-		      	  puts "customer exists"
-			      @customer.attributes["phone"] = params[:mobile_number]
-			      if @customer.save
+	          	p "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
+			      if @customer.update_attribute(:phone, params[:mobile_number])
+			      	p "33333333333333333333333333333333333333333333333333333"
+			      	p "33333333333333333333333333333333333333333333333333333"
+			      	p "33333333333333333333333333333333333333333333333333333"
 			      	render plain: "Mobile number has been saved."
 			        flash[:message] = "the Mobile Number has been created"
 			        # binding.pry
 			        #redirect_to (@mobilenumber_storer.iid)
 
 			      else
+			      	p "555555555555555555555555555555555555555"
+			      	p "555555555555555555555555555555555555555"
+			      	p "555555555555555555555555555555555555555"
 			      	puts "failed to update the customer details"
 			        render action: "new"
 			      end
@@ -59,29 +64,32 @@ module  AppProxy
 			  	render plain: "Mobile number has not been updated."
 			  end
        		  
-       		  shop_url  = "https://9b0b0fe7c3115f8d629edf91ba45cb04:7b6212eef1dd85f579471a81402fdda4@#{params[:shop]}/admin";
-		      ShopifyAPI::Base.site = shop_url
-              ShopifyAPI::Session.setup(api_key: '9b0b0fe7c3115f8d629edf91ba45cb04', secret: '7b6212eef1dd85f579471a81402fdda4')
-              binding.pry
-              customer = ShopifyAPI::Customer.search(query: "email:#{params[:email_id]}").first
-              binding.pry
-              @products = "https://"+params[:shop]+"/admin/products.json"
-	            if(customer.attributes["phone"] == nil && customer.attributes["note"] != nil && customer!=nil)	
-			           binding.pry
-			                    customer.attributes["phone"] = params[:mobile_number]
-			                    customer.save
-			                    puts customer.save
-			                    customer.attributes["note"].split("\n").each do |element|
-		                           #if(element.include?("Mobile"))
-			                        #   arr1 = []
-			                        #   arr1 = element.split(":").second.split(" ").first
-			                        #   binding.pry
-			                        #   puts arr1.class
-			                        #   puts customer.update_attributes({"phone": "#{element.split(":").second.split(" ").first}"})
-		                            #   binding.pry
-		                           #end
-		                        end    
-				end
+    #    		  shop_url  = "https://9b0b0fe7c3115f8d629edf91ba45cb04:7b6212eef1dd85f579471a81402fdda4@#{params[:shop]}/admin";
+		  #     ShopifyAPI::Base.site = shop_url
+    #           ShopifyAPI::Session.setup(api_key: '9b0b0fe7c3115f8d629edf91ba45cb04', secret: '7b6212eef1dd85f579471a81402fdda4')
+    #           # binding.pry
+    #           customer = ShopifyAPI::Customer.search(query: "email:#{params[:email_id]}").first
+    #           # binding.pry
+    #           @products = "https://"+params[:shop]+"/admin/products.json"
+	   #          if(customer.attributes["phone"] == nil && customer.attributes["note"] != nil && customer!=nil)	
+			 #           # binding.pry
+			 #           params[:mobile_number] = "1111112222"
+			 #                    # customer.attributes["phone"] = params[:mobile_number]
+			 #                    customer.update_attribute(:phone, c)
+			 #                    # puts customer.save
+			 #                    p "22222222222222222222222222222222222222222222"
+			 #                    p "22222222222222222222222222222222222222222222"
+			 #                    customer.attributes["note"].split("\n").each do |element|
+		  #                          #if(element.include?("Mobile"))
+			 #                        #   arr1 = []
+			 #                        #   arr1 = element.split(":").second.split(" ").first
+			 #                        #   binding.pry
+			 #                        #   puts arr1.class
+			 #                        #   puts customer.update_attributes({"phone": "#{element.split(":").second.split(" ").first}"})
+		  #                           #   binding.pry
+		  #                          #end
+		  #                       end    
+				# end
 		  end
 		  ShopifyAPI::Base.clear_session   
 	  end
