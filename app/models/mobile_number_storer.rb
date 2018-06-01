@@ -1,6 +1,7 @@
 class MobileNumberStorer < ActiveRecord::Base
   include ShopifyApp::SessionStorage
   validates_presence_of :mobile_number,:email_id
+  before_create :activate_the_shopify_session
   def self.update_the_customer_info_after_2_minutes(options={})#shop,email_id,mobile_number
   	      binding.pry
   		  shop_url  = "https://9b0b0fe7c3115f8d629edf91ba45cb04:7b6212eef1dd85f579471a81402fdda4@#{params[:shop]}/admin";
@@ -35,8 +36,18 @@ class MobileNumberStorer < ActiveRecord::Base
             puts "the customer doesnot exist and the @customer variable shows"
             puts @customer
 		  	render plain: "Mobile number has not been updated."
-		  end   
-	  
-     
+		  end     
+  end
+
+  def self.activate_the_shopify_session
+  	      binding.pry
+  	      shop_url  = "https://9b0b0fe7c3115f8d629edf91ba45cb04:7b6212eef1dd85f579471a81402fdda4@#{params[:shop]}/admin";
+		  ShopifyAPI::Base.site = shop_url
+		  token = Shop.where(shopify_domain: params[:shop]).first.shopify_token
+		  session = ShopifyAPI::Session.new(params[:shop],token)
+		  puts session.token
+		  scope = ["write_customers,read_customers"]
+		  #permission_url = session.create_permission_url(scope, "https://#{params[:shop]}/auth/shopify/callback");	  
+		  puts ShopifyAPI::Base.activate_session(session)
   end	
 end

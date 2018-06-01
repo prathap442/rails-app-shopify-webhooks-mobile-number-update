@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180519014908) do
+ActiveRecord::Schema.define(version: 20180531085947) do
+
+  create_table "customer_creation_webhook_managers", force: :cascade do |t|
+    t.integer "customer_id"
+    t.string "customer_mobile"
+    t.string "customer_email"
+    t.string "customer_note"
+    t.string "str"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "mobile_number_storers", force: :cascade do |t|
     t.string "mobile_number"

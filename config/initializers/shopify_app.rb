@@ -6,10 +6,9 @@ ShopifyApp.configure do |config|
   config.scope = "read_orders, read_products, read_customers, read_draft_orders, write_customers,read_themes, write_themes"
   config.embedded_app = true
   config.after_authenticate_job = false
-  #binding.pry
-  config.session_repository = Shop  
-  binding.pry
+  config.session_repository = Shop    
   config.webhooks = [
-    {topic: 'customers/create', address: 'https://3a3740f6.ngrok.io/webhooks', format: 'json'},
+    {topic: 'customers/create', address: 'https://fb70c513.ngrok.io/webhooks/create_the_customer_webhook', format: 'json'},
+    {topic: 'customers/update', address: 'https://fb70c513.ngrok.io/webhooks/create_the_customer_webhook', format: 'json'} 
   ]
 end

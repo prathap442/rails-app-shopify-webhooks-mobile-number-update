@@ -33,28 +33,22 @@ module  AppProxy
 		  #permission_url = session.create_permission_url(scope, "https://#{params[:shop]}/auth/shopify/callback");	  
 		  puts ShopifyAPI::Base.activate_session(session)
 		  @mobile_number_storer = MobileNumberStorer.new(mobile_number_storer_params)
+	      
 	      puts @mobile_number_storer.errors.full_messages
+	      @customer = ShopifyAPI::Customer.search(query: "email:#{params[:email_id]}").first
 	      # @mobile_number_storer.save
-	      sleep(40);
+	         #sleep(40);
 	      puts ShopifyAPI::Shop.current
 	      if(params[:email_id] != nil && params[:mobile_number] !=nil)
 		          #(ShopifyAPI::Customer.search(query: "email:#{params[:email_id]}").first.phone = params[:mobile_number]).save
 		          @customer = ShopifyAPI::Customer.search(query: "email:#{params[:email_id]}").first
+	          
 	          if(@customer)
 	          	p "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
 			      if @customer.update_attribute(:phone, params[:mobile_number])
-			      	p "33333333333333333333333333333333333333333333333333333"
-			      	p "33333333333333333333333333333333333333333333333333333"
-			      	p "33333333333333333333333333333333333333333333333333333"
 			      	render plain: "Mobile number has been saved."
 			        flash[:message] = "the Mobile Number has been created"
-			        # binding.pry
-			        #redirect_to (@mobilenumber_storer.iid)
-
 			      else
-			      	p "555555555555555555555555555555555555555"
-			      	p "555555555555555555555555555555555555555"
-			      	p "555555555555555555555555555555555555555"
 			      	puts "failed to update the customer details"
 			        render action: "new"
 			      end
@@ -63,9 +57,13 @@ module  AppProxy
 	            puts @customer
 			  	render plain: "Mobile number has not been updated."
 			  end
+           end
+		  ShopifyAPI::Base.clear_session   
+	  end
+
        		  
-    #    		  shop_url  = "https://9b0b0fe7c3115f8d629edf91ba45cb04:7b6212eef1dd85f579471a81402fdda4@#{params[:shop]}/admin";
-		  #     ShopifyAPI::Base.site = shop_url
+    #    		shop_url  = "https://9b0b0fe7c3115f8d629edf91ba45cb04:7b6212eef1dd85f579471a81402fdda4@#{params[:shop]}/admin";
+    #           ShopifyAPI::Base.site = shop_url
     #           ShopifyAPI::Session.setup(api_key: '9b0b0fe7c3115f8d629edf91ba45cb04', secret: '7b6212eef1dd85f579471a81402fdda4')
     #           # binding.pry
     #           customer = ShopifyAPI::Customer.search(query: "email:#{params[:email_id]}").first
@@ -90,9 +88,7 @@ module  AppProxy
 		  #                          #end
 		  #                       end    
 				# end
-		  end
-		  ShopifyAPI::Base.clear_session   
-	  end
+		  
 
 	  
 	  # PATCH/PUT /mobile_number_storers/1
@@ -121,7 +117,11 @@ module  AppProxy
 	  end
 
 	  def update_the_customer_info_after_2_minutes
-	  end	
+	  end
+
+	  def create_a_record_first_in_the_webhook_manger_table
+	  	CustomerCreationWebhookManager.new(customer_id: params[:customer_id],customer_mobile: params[:phone],customer_email: params[:email],customer_note: params[:note],str: params[:str])      
+      end	
 
 	  private
 	    # Use callbacks to share common setup or constraints between actions.

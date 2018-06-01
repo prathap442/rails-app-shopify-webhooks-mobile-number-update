@@ -32,5 +32,7 @@ module ShopifyApp
     def webhook_namespace
       ShopifyApp.configuration.webhook_jobs_namespace
     end
+
+    
   end
 end

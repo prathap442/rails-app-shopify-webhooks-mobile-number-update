@@ -1,6 +1,7 @@
 class AppProxy::MobileUpdatesController < ShopifyApp::AuthenticatedController
-   skip_before_action  :verify_authenticity_token
-   around_action :perform_the_following_methods
+   include ShopifyApp::AppProxyVerification 
+    include HTTParty
+    protect_from_forgery
   def update_the_customer_details
    p "JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ"
    #this is https://api_key:secret

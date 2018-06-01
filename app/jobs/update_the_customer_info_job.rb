@@ -3,6 +3,6 @@ class UpdateTheCustomerInfoJob < ApplicationJob
 
   def perform(*args)
     # Do something later
-    MobileNumberStorer.update_the_customer_info_after_2_minutes()
+    MobileNumberStorer.update_the_customer_info_after_2_seconds()
   end
 end
