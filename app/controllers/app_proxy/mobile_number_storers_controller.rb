@@ -117,11 +117,7 @@ module  AppProxy
 	  end
 
 	  def update_the_customer_info_after_2_minutes
-	  end
-
-	  def create_a_record_first_in_the_webhook_manger_table
-	  	CustomerCreationWebhookManager.new(customer_id: params[:customer_id],customer_mobile: params[:phone],customer_email: params[:email],customer_note: params[:note],str: params[:str])      
-      end	
+	  end	
 
 	  private
 	    # Use callbacks to share common setup or constraints between actions.
